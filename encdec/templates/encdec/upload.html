@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+
+    <div class="w3-container">
+        <div id="id01" class="w3-modal">
+          <div class="w3-modal-content w3-card-4 w3-animate-zoom  w3-round-large" style="max-width:600px">
+        
+            <div class="w3-center"><br>
+              <span class="w3-button w3-xlarge w3-transparent w3-display-topright" onclick="redir()" title="Close Modal">×</span>
+              <img src="/media/enct.jpg" alt="Avatar" style="width:30%" class="w3-margin-top">
+              <h4>Your file has uploaded successfully!</h4>
+            <button class="w3-btn w3-green" onclick="redir()" style="padding: 6px 60px;margin:10px;border-radius: 20px;">Ok</button>
+            </div>
+      
+      
+          </div>
+        </div>
+      </div>
+
+<script>
+    var panel = document.getElementById('id01');
+</script>
+    {% if thank %}
+  <script>
+    panel.style.display='block';
+  </script>
+    {% else %}
+  <script>
+    document.location = "/encdec/";
+  </script>
+    {% endif %}
+  <script>
+    function redir() {
+        document.location = "/encdec/";
+    }
+  </script>
+</body>
+</html>

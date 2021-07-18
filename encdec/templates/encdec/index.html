@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  </style>
+</head>
+<body>
+    <h1 class="w3-center">SECURE FILE UPLOADING USING CRYPTOGRAPHY</h1>
+    <div class="w3-container w3-round-large w3-center" style="padding:0% 0%;height:250px;width:60%;border:1px black solid; margin:0% 20%">
+    <form action="uploads/" method="post" enctype="multipart/form-data">{% csrf_token %}
+      <img src="/media/upmain_s.png" alt="" width="200px" id="csv_image" title="Select .csv file" style="cursor:pointer; border:3px black dashed" class="w3-round-large w3-margin">
+        <input type="file" name="files" id="csv_file" onchange="file_verify()" style="display:none">  
+        <br>
+        <input type="text" name="file_type" value="ENC" style="display: none;">
+        <p style="color:red;display:none" id="mess">Please, upload csv file or .csv extension file.</p>
+        <input type="submit" name="submit" id="btn" value="Upload" class="w3-button w3-blue w3-card w3-text-white w3-hover-text-white w3-hover-grey w3-round"  style="padding: 6px 60px;border-radius: 20px;">
+       </form>
+</div>
+<hr>
+<h3 class="w3-center">Encrypted Files</h3>
+    <div class="w3-container">
+        <ul class="w3-ul w3-card-4" style="padding: 6px 20px;">
+{% if len == 0 %}
+<div class="w3-container w3-center">
+  <img src="/media/up1.jpg" alt="" width="200px">
+<h3>Sorry, No data found!</h3>
+</div>
+{% endif %}
+
+            {% for i in product %}
+          <li class="w3-bar">
+            <img src="/media/just.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:79px; margin:-10px">
+            <div class="w3-bar-item">
+                <a class="w3-large" style="text-decoration: none;">{{i.product_name}}</a>
+              </div>
+  
+            <form action="dec/" method="get" enctype="multipart/form-data">{% csrf_token %}
+                <input type="text" name="product_f" id="" value="{{ i.product_folder}}"  style="display: none;">
+                <input type="text" name="product_n" value="{{i.product_name}}" style="display: none;">
+                {% if i.product_type == 'ENC' %}
+                <input type="submit" class="w3-bar-item w3-btn w3-green w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" value="Decrypt">
+            {% else %}
+            <input type="submit" class="w3-bar-item w3-btn w3-blue w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" value="Encrypt">
+          {% endif %}    
+          </form>
+
+            <div class="w3-bar-item w3-btn w3-blue w3-large w3-right w3-margin-right"   style="padding: 6px 60px;border-radius: 20px;">
+              <a href="/media/encdec/files/{{ i.product_folder }}/{{ i.product_name }}" class="w3-large" style="text-decoration: none;" download="">Download</a>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+<script>
+
+var button=document.getElementById('btn');
+var csv_image=document.getElementById('csv_image');
+var file_name=document.getElementById('csv_file');
+button.disabled=true;
+
+csv_image.addEventListener("click",function(){
+file_name.click();
+});
+
+function file_verify(){
+var button=document.getElementById('btn');
+var mess=document.getElementById('mess');
+var csv_image=document.getElementById('csv_image');
+var file_name=document.getElementById('csv_file');
+var file_path=file_name.value;
+
+if(file_name.files.length != 0)
+{
+  csv_image.src="/media/upmain.png"
+    var file_new=file_path.replace(/^.*?([^\\\/]*)$/,'$1');
+    mess.style.display='block';
+    mess.style.color="black";
+    mess.innerHTML="<p style='margin-top:-25px'>"+file_new+"</p>";
+    button.disabled=false;
+    return true;
+}
+}
+
+</script>
+</body>
+</html>

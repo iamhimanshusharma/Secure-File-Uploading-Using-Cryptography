@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+
+    <div class="w3-panel w3-blue w3-display-container w3-round-large w3-margin">
+        <span onclick="this.parentElement.style.display='none'" class="w3-btn w3-round-large w3-large w3-display-topright">×</span>
+        <h3>Decrypted!</h3>
+        <p>Your file has Decrypted, you can click on download button to download.</p>
+      </div>
+      <div class="w3-container w3-center">
+    <img src="/media/down.jpg" alt="" width="400px">
+    <h5>{{file}}</h5>
+    <a href="/media/encdec/files/{{ folder }}/{{ file }}" download="" class="w3-btn w3-blue" style="padding: 6px 60px;margin:10px;border-radius: 20px;">Download</a>
+</div>
+</body>
+</html>
