@@ -69,13 +69,20 @@
 </head>
 <body>
     <h1 class="w3-center">SECURE FILE UPLOADING USING CRYPTOGRAPHY</h1>
-    <div class="w3-container w3-round-large w3-center" style="padding:0% 0%;height:250px;width:60%;border:1px black solid; margin:0% 20%">
+    <div class="w3-container w3-round-large w3-center" style="padding:0% 0%;height:400px;width:60%;border:1px black solid; margin:0% 20%">
     <form action="uploads/" method="post" enctype="multipart/form-data">{% csrf_token %}
       <img src="/media/upmain_s.png" alt="" width="200px" id="csv_image" title="Select .csv file" style="cursor:pointer; border:3px black dashed" class="w3-round-large w3-margin">
         <input type="file" name="files" id="csv_file" onchange="file_verify()" style="display:none">  
         <br>
         <input type="text" name="file_type" value="ENC" style="display: none;">
         <p style="color:red;display:none" id="mess">Please, upload csv file or .csv extension file.</p>
+        
+        <p>Key Type:</p>
+        <input type="radio" name="key" value="dflt" onchange="document.getElementById('keyinput').style.display='none'" checked> Default <br>
+        <input type="radio" name="key" value="kinp" onchange="document.getElementById('keyinput').style.display='block'"> Use your own key
+        <input type="text" name="keyed" id="keyinput" style="display: none;margin:auto"  placeholder="Enter your key">
+        <img src="/media/help.png" alt="Help" width="25px" title="You can write anything"><br><br>
+
         <input type="submit" name="submit" id="btn" value="Upload" class="w3-button w3-blue w3-card w3-text-white w3-hover-text-white w3-hover-grey w3-round"  style="padding: 6px 60px;border-radius: 20px;">
        </form>
 </div>
@@ -92,24 +99,50 @@
 
             {% for i in product %}
           <li class="w3-bar">
-            <img src="/media/just.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:79px; margin:-10px">
-            <div class="w3-bar-item">
-                <a class="w3-large" style="text-decoration: none;">{{i.product_name}}</a>
-              </div>
-  
+            <table width="100%">
+              <tr>
+                <td><img src="/media/just.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:79px; margin:-10px">
+                  <div class="w3-bar-item">
+                      <a class="w3-large" style="text-decoration: none;">{{i.product_name}}</a>
+                    </div></td>
+                <td>
+                  {% if i.product_type == 'ENC' %}
             <form action="dec/" method="get" enctype="multipart/form-data">{% csrf_token %}
                 <input type="text" name="product_f" id="" value="{{ i.product_folder}}"  style="display: none;">
                 <input type="text" name="product_n" value="{{i.product_name}}" style="display: none;">
-                {% if i.product_type == 'ENC' %}
+                {% if i.key_type == 'kinp' %}
+            <input type="text" name="keyed" placeholder="Enter your key to decrpyt" required>
+          {% endif %}
+    
                 <input type="submit" class="w3-bar-item w3-btn w3-green w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" value="Decrypt">
-            {% else %}
-            <input type="submit" class="w3-bar-item w3-btn w3-blue w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" value="Encrypt">
-          {% endif %}    
-          </form>
-
-            <div class="w3-bar-item w3-btn w3-blue w3-large w3-right w3-margin-right"   style="padding: 6px 60px;border-radius: 20px;">
-              <a href="/media/encdec/files/{{ i.product_folder }}/{{ i.product_name }}" class="w3-large" style="text-decoration: none;" download="">Download</a>
-            </div>
+              </form>
+                </td>
+                <td>
+                  {% else %}
+                <form action="again_uploads/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                  <input type="text" value="ENC" name="file_type" style="display: none;">
+                  <input type="text" name="pro_folder" value="media/encdec/files/{{ i.product_folder}}"  style="display: none;">
+                  <input type="text" name="pro_file" value="{{ i.product_name }}"  style="display: none;">
+                  <input type="text" name="folder_name" value="{{ i.product_folder }}"  style="display: none;">
+                  <p>Key Type:</p>
+                  <input type="radio" name="key" value="dflt" onchange="document.getElementById('again_keyinput').style.display='none'" checked> Default <br>
+                  <input type="radio" name="key" value="kinp" onchange="document.getElementById('again_keyinput').style.display='block'"> Use your own key
+                  <input type="text" name="keyed" id="again_keyinput" style="display: none;margin:auto"  placeholder="Enter your key">
+                  <a class="w3-bar-item w3-btn w3-green w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" href="/media/encdec/files/{{ i.product_folder}}/{{ i.product_name }}" download>Download</a>
+                  <input type="submit" class="w3-bar-item w3-btn w3-blue w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" value="Encrypt">
+            </form>
+          {% endif %} 
+                </td>
+                <td>
+                  <form action="delete_data/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <input type="text" name="pro_folder" value="media/encdec/files/{{ i.product_folder}}"  style="display: none;">
+                    <input type="text" name="folder_name" value="{{ i.product_folder }}"  style="display: none;">
+                    <input type="submit" class="w3-bar-item w3-btn w3-margin-left w3-red w3-large w3-right w3-round-large" style="padding: 6px 13px;border-radius: 20px;" value="X">
+              </form>
+                </td>
+              </tr>
+            </table>
+            
           </li>
           {% endfor %}
         </ul>

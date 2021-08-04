@@ -1,5 +1,6 @@
 from Crypto import Random
 from Crypto.Cipher import AES
+from cryptography.fernet import Fernet
 import os
 import os.path
 from os import listdir
@@ -43,6 +44,31 @@ class Encryptor:
         # os.remove(file_name)
         return file_name[:-4]
 
+# <<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# ?????????????????????????????????????????????????????????????????????????????????/?
+
+    def fernet_encrypt(self, message, key):
+        f = Fernet(self.key)
+        return f.encrypt(message)
+
+    def fernet_encrypt_file(self, file_name):
+        with open(file_name, 'rb') as fo:
+            plaintext = fo.read()
+        enc = self.fernet_encrypt(plaintext, self.key)
+        with open(file_name + ".enc", 'wb') as fo:
+            fo.write(enc)
+
+    def fernet_decrypt(self, message, key):
+        f = Fernet(self.key)
+        return f.decrypt(message)
+
+    def fernet_decrypt_file(self, file_name):
+        with open(file_name, 'rb') as fo:
+            enctext = fo.read()
+        enc = self.fernet_decrypt(enctext, self.key)
+        with open(file_name[:-4], 'wb') as fo:
+            fo.write(enc)
+
     def getAllFiles(self, path):
         # dir_path = os.path.dirname(os.path.realpath(__file__))
         dirs = []
@@ -61,6 +87,10 @@ class Encryptor:
         dirs = self.getAllFiles(path)
         for file_name in dirs:
             self.decrypt_file(file_name)
+
+
+# Fernet Encryption
+    
 
 
 # key = b'[EX\xc8\xd5\xbfI{\xa2$\x05(\xd5\x18\xbf\xc0\x85)\x10nc\x94\x02)j\xdf\xcb\xc4\x94\x9d(\x9e'
