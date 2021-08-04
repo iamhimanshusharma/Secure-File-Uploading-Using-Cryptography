@@ -1,0 +1,5 @@
+filesplit==3.0.2
+cryptography==2.9.2
+Django==3.0.7
+fsplit==1.0.0
+pycryptodome==3.10.1
