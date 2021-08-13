@@ -67,7 +67,7 @@
   }
   </style>
 </head>
-<body>
+<body>{% load static %}
     <h1 class="w3-center">SECURE FILE UPLOADING USING CRYPTOGRAPHY</h1>
     <div class="w3-container w3-round-large w3-center" style="padding:0% 0%;height:400px;width:60%;border:1px black solid; margin:0% 20%">
     <form action="uploads/" method="post" enctype="multipart/form-data">{% csrf_token %}
@@ -125,9 +125,9 @@
                   <input type="text" name="pro_file" value="{{ i.product_name }}"  style="display: none;">
                   <input type="text" name="folder_name" value="{{ i.product_folder }}"  style="display: none;">
                   <p>Key Type:</p>
-                  <input type="radio" name="key" value="dflt" onchange="document.getElementById('again_keyinput').style.display='none'" checked> Default <br>
-                  <input type="radio" name="key" value="kinp" onchange="document.getElementById('again_keyinput').style.display='block'"> Use your own key
-                  <input type="text" name="keyed" id="again_keyinput" style="display: none;margin:auto"  placeholder="Enter your key">
+                  <input type="radio" name="key" value="dflt" onchange="document.getElementById('again_keyinput'+'{{i}}').style.display='none'" checked> Default <br>
+                  <input type="radio" name="key" value="kinp" onchange="document.getElementById('again_keyinput'+'{{i}}').style.display='block'"> Use your own key
+                  <input type="text" name="keyed" id="again_keyinput{{i}}" style="display: none;margin:auto"  placeholder="Enter your key">
                   <a class="w3-bar-item w3-btn w3-green w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" href="/media/encdec/files/{{ i.product_folder}}/{{ i.product_name }}" download>Download</a>
                   <input type="submit" class="w3-bar-item w3-btn w3-blue w3-large w3-right w3-round-large" style="padding: 6px 60px;border-radius: 20px;" value="Encrypt">
             </form>
