@@ -22,8 +22,3 @@ DECRYTION OF EVERY SUB FILE > MERGING INTO FILE > AGAIN DECRYPTION OF THE FILE >
 
 <=============TO WORK WITH COLLABORATION OR ANY QUERY===============><br>
 CONTACT ME: imyselfhimanshusharma@gmail.com
-
-
-```
-Checking some code
-```
